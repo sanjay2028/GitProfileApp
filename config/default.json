@@ -1,8 +1,0 @@
-{
-    "app" : {
-        "PORT" : "9100"
-    },
-    "db" : {
-        "username" : "username"
-    }
-}
