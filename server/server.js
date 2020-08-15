@@ -39,19 +39,6 @@ const gitRoutes = require('./routes');
  */
 app.use('/api', gitRoutes);
 
-// const User = require('./config/user');
-// const db = require('./config/db');
-// const userRoutes = require("./routes/user");
-// const authRoutes = require("./routes/auth");
-
-
-
-
-
-
-// app.use('/api/admin/user', userRoutes);
-// app.use('/api/auth', authRoutes);
-
 app.listen(PORT, async (req, res) =>{
     try{
         let db_resp = await createDBConnection();        
