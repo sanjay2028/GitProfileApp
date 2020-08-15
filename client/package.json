@@ -1,0 +1,47 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "*",
+    "bootstrap": "^4.5.2",
+    "node-sass": "*",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "*",
+    "react-scripts": "3.4.3",
+    "redux": "*",
+    "redux-thunk": "*"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "babel-plugin-import": "*",
+    "customize-cra": "*",
+    "react-app-rewire-sass-modules": "*",
+    "react-app-rewired": "*",
+    "sass-loader": "*"
+  }
+}
