@@ -7,8 +7,7 @@ import {fetchUser, fetchCommitsByRepository, showModal} from '../../actions';
 class AppLayout extends Component{
 
     constructor(props){
-        super(props)
-        
+        super(props)        
     }
 
     showModal = (e) => {
@@ -18,12 +17,17 @@ class AppLayout extends Component{
         this.props.fetchCommits({username : this.props.user.user.login, repoId });
     }
 
+    handleSubmit = (payload) => {
+        this.props.fetchUser(payload)
+    }
+
     render(props){
+        console.log("Layout Props", this.props.user);
         let { isProcessing, user, error, success } = this.props.user;
         let repositories =  !!user && typeof user.repositories !== 'undefined' ? user.repositories : []
         return (
             <Fragment>
-                <AppNavBar isProcessing={isProcessing} handleSubmit={this.props.fetchUser} />
+                <AppNavBar isProcessing={isProcessing} handleSubmit={this.handleSubmit} />
                 <AppSidebar user={user} />
                 <AppBody 
                     repositories={repositories} 

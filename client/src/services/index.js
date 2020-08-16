@@ -4,7 +4,8 @@ import axios from 'axios';
 const networkError = {    
     status_code : 511,
     error_type: "network_error",
-    error: "Network Error",    
+    error: "Network Error",
+    flash: "Network Unavailable. Please try again"
 }
 
 const URL = 'http://localhost:9000/api'
@@ -14,8 +15,7 @@ const configVals = () => ({
 });
 
 const userService = {
-    fetchUser: (username) => {        
-        
+    fetchUser: (username) => {                
         return axios.get(`${URL}/${username}`, configVals())
                .then(({data}) => {        
                    return data;

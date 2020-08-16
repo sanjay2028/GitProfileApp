@@ -8,8 +8,7 @@ const initialState = {
     commits : []    
 };
 
-const commits = (state = initialState, {type, payload=null}) => {
-    console.log("type", type)
+const commits = (state = initialState, {type, payload=null}) => {    
     switch(type){
         case SHOW_COMMIT_MODAL:                        
             return { ...state, modal_visible: true };

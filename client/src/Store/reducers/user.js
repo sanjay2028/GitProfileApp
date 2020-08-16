@@ -1,20 +1,22 @@
 import { FETCH_USER_START, FETCH_USER_SUCCESS, FETCH_USER_FAILED, FETCH_USER_END } from '../../shared/constants';
 
 const initialState = {
-    isProcessing : false,
+    isProcessing : null,
     error : null,
     success : null,
-    user : null    
+    user : null,
 };
 
 const user = (state = initialState, {type, payload=null}) => {
     switch(type){
-        case FETCH_USER_START:                        
+        case FETCH_USER_START:       
+            console.log("Fetching starts")                 
             return {
-                ...state, isProcessing: true, success:null, error:null
-            };
+                ...state, success:null, error:"", isProcessing : true,
+            };break;            
+            
 
-        case FETCH_USER_END:
+        case FETCH_USER_END:            
             return {
                 ...state, isProcessing: false
             };

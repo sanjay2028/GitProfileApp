@@ -35,7 +35,7 @@ class AppModal extends Component {
 
 
         return(            
-            <div className={`modal { isVisible && 'fade show'}`} tabindex="-1" role="dialog" style={{display: isVisible? 'block' : 'none' }}>
+            <div className={`modal { isVisible && 'fade show'}`} tabIndex="-1" role="dialog" style={{display: isVisible? 'block' : 'none' }}>
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">

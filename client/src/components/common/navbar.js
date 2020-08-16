@@ -1,4 +1,5 @@
 import React,  {Component} from 'react'
+import { ApiButton } from '../common';
 
 class AppNavBar extends Component{
 
@@ -21,12 +22,11 @@ class AppNavBar extends Component{
     handleSubmit = (event) => {
         let {username} = this.state;
         if(!!username.trim()){
-            this.props.handleSubmit(username);
-            console.log("we have submitted from the form")
+            this.props.handleSubmit(username);            
         }
     }
 
-    render(){
+    render(){        
         let { username, canSubmit } = this.state;
         let {isProcessing} = this.props;
         let disabled = (isProcessing || !canSubmit)? 'disabled' : '';
@@ -36,7 +36,7 @@ class AppNavBar extends Component{
                     <input className="form-control form-control-dark w-100" type="text" placeholder="Search" onChange={this.handleChange}  />
                     <ul className="navbar-nav px-3">
                     <li className="nav-item text-nowrap">
-                        <button className="btn btn-primary" onClick={this.handleSubmit}>Search</button>            
+                        <ApiButton title="Search" onClick={this.handleSubmit} isProcessing={isProcessing} isDisabled={disabled} />
                     </li>
                 </ul>
             </nav>

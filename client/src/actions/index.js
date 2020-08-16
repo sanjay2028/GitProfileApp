@@ -11,6 +11,7 @@ import {
     HIDE_COMMIT_MODAL
  } from '../shared/constants';
 
+import { clearFlash, setFlashSuccess, setFlashError, setFlashInfo } from './flash';
 import userService from '../services';
 
 const fetchUserStart = {
@@ -34,15 +35,18 @@ const fetchUserFailed = (payload) => ({
 
 const fetchUser = (payload) => {
     
-    return function (dispatch) {              
+    return function async (dispatch) {                              
         dispatch(fetchUserStart);  
         return userService
         .fetchUser(payload)
-        .then(({ data }) => {   
+        .then(({ data }) => {                                    
             dispatch(fetchUserSuccess(data));                           
-        }).catch((response) => {                        
-            return dispatch(fetchUserFailed(response))           
-        }).finally(dispatch(fetchUserEnds));
+        }).catch(({flash, error}) => {               
+            dispatch(setFlashError(flash));
+            dispatch(fetchUserFailed(error))           
+        }).finally(() => {            
+            dispatch(fetchUserEnds)
+        });
         
     }
 }
@@ -80,7 +84,8 @@ const fetchCommitFailed = (payload) => ({
 
 const fetchCommitsByRepository = (payload) => {
     
-    return function (dispatch) {              
+    return function (dispatch) {    
+        dispatch(clearFlash);          
         dispatch(fetchCommitStart);  
         return userService
         .fetchCommits(payload)
@@ -88,7 +93,7 @@ const fetchCommitsByRepository = (payload) => {
             dispatch(fetchCommitSuccess(data));                           
         }).catch((response) => {                        
             return dispatch(fetchCommitFailed(response))           
-        }).finally(dispatch(fetchCommitEnds));
+        }).finally(() => dispatch(fetchCommitEnds));
         
     }
 }
