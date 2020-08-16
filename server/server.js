@@ -13,6 +13,7 @@ const CORS = require("cors");
 const bodyParser = require('body-parser');
 const path = require("path");
 
+
 /**
  * Load environemnt variables
  */
@@ -24,6 +25,7 @@ const createDBConnection = require('./utilities/db');
  * Main App
 */
 const app = express();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(CORS());
@@ -39,11 +41,24 @@ const gitRoutes = require('./routes');
  */
 app.use('/api', gitRoutes);
 
-app.listen(PORT, async (req, res) =>{
+const server = app.listen(PORT, async (req, res) =>{
     try{
         let db_resp = await createDBConnection();        
         console.log("Listening at Port No. %s", PORT)
     } catch(error) {
         console.log("Error", error.toString())     
     }
+});
+
+/**
+ * IO Socket 
+ */
+
+const io = require('socket.io').listen(server);
+io.origins(['http://localhost:3000']);
+io.on('connection', socket => {    
+    global.socket = socket;
+    socket.on("disconnect", () => {
+        console.log("Client disconnected");        
+    });
 });

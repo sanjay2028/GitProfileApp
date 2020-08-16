@@ -27,6 +27,7 @@ const { createError, createResponse } = require("../utilities/helpers");
 const ListRepositories = async (req, res) => {
 
     try{
+        let responseUser;
        
         /**
          * Extract the username from request parameters
@@ -44,7 +45,9 @@ const ListRepositories = async (req, res) => {
 
             current_user = await createUser(userInfo.shift());
             
-            current_user.import_in_progress = true;
+            current_user.repositories = "Please wait!!. Data import in progress";
+            responseUser = current_user.toJSON();
+            responseUser["inTransit"] = true       
 
             /**
              * Trigger the update for the insertion of repos and commits
@@ -56,23 +59,30 @@ const ListRepositories = async (req, res) => {
                  * Insert the commits for each repo
                  */
                 try{
-                    await insertRepoCommits(response);                    
+                    await insertRepoCommits(response);   
+                    sendSocketReply(response)                    
                 } catch(error) {
-                    res.status(STATUS_INTERNAL_ERROR).send(error)
+                    console.log("Error occurred while fetcing repos");
                 }                
 
             }).catch(error => {
                 console.log("Error found in async code", error)
             });
             
-        } else {
-            res.status(STATUS_OK).send(createResponse(current_user))
+        } else {                        
+            responseUser = current_user.toJSON()
+            responseUser["inTransit"] = false            
         }                
 
-    } catch(error){      
-        console.log("ERROR occupred", error);  
+        res.status(STATUS_OK).send(createResponse(responseUser))
+
+    } catch(error){              
         res.status(STATUS_NOT_FOUND).send(error)
     }  
+}
+
+const sendSocketReply = (repositories) => {
+    socket.emit('asyncRepos', repositories);
 }
 
 const insertRepoCommits = async(data) => {

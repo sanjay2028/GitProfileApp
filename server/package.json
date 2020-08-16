@@ -17,6 +17,7 @@
     "lodash": "^4.17.15",
     "mongoose": "^5.9.4",
     "octonode": "^0.9.5",
+    "socket.io": "^2.3.0",
     "validatorjs": "^3.18.1"
   },
   "devDependencies": {

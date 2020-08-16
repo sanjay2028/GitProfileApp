@@ -22,7 +22,7 @@ ApiButton.defaultProps = {
 
 ApiButton.propTypes = {
     isProcessing : PropTypes.bool.isRequired,
-    isDisabled : PropTypes.bool.isRequired,
+    isDisabled : PropTypes.string.isRequired,
     handleSubmit : PropTypes.func
 }
 

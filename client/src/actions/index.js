@@ -8,7 +8,8 @@ import {
     FETCH_COMMITS_FAILED,
     FETCH_COMMITS_END,
     SHOW_COMMIT_MODAL,
-    HIDE_COMMIT_MODAL
+    HIDE_COMMIT_MODAL,
+    UPDATE_USER_REPOSITORIES
  } from '../shared/constants';
 
 import { clearFlash, setFlashSuccess, setFlashError, setFlashInfo } from './flash';
@@ -21,6 +22,10 @@ const fetchUserStart = {
 const fetchUserEnds = {
     type : FETCH_USER_END
 }
+
+const updateUserRepositories = (payload) => ({
+    type : UPDATE_USER_REPOSITORIES, payload
+})
 
 const fetchUserSuccess = (payload) => {    
     return {
@@ -36,18 +41,19 @@ const fetchUserFailed = (payload) => ({
 const fetchUser = (payload) => {
     
     return function async (dispatch) {                              
+        dispatch(clearFlash);
         dispatch(fetchUserStart);  
         return userService
         .fetchUser(payload)
         .then(({ data }) => {                                    
+            dispatch(setFlashSuccess("Success !!!"));
             dispatch(fetchUserSuccess(data));                           
         }).catch(({flash, error}) => {               
             dispatch(setFlashError(flash));
             dispatch(fetchUserFailed(error))           
         }).finally(() => {            
             dispatch(fetchUserEnds)
-        });
-        
+        });        
     }
 }
 
@@ -98,4 +104,4 @@ const fetchCommitsByRepository = (payload) => {
     }
 }
 
-export { fetchUser, fetchCommitsByRepository, showModal, hideModal }  
+export { fetchUser, fetchCommitsByRepository, showModal, hideModal, updateUserRepositories }  

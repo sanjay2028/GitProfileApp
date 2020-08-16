@@ -1,7 +1,7 @@
-import { FETCH_USER_START, FETCH_USER_SUCCESS, FETCH_USER_FAILED, FETCH_USER_END } from '../../shared/constants';
+import { FETCH_USER_START, FETCH_USER_SUCCESS, FETCH_USER_FAILED, FETCH_USER_END, UPDATE_USER_REPOSITORIES } from '../../shared/constants';
 
 const initialState = {
-    isProcessing : null,
+    isProcessing : false,
     error : null,
     success : null,
     user : null,
@@ -9,12 +9,10 @@ const initialState = {
 
 const user = (state = initialState, {type, payload=null}) => {
     switch(type){
-        case FETCH_USER_START:       
-            console.log("Fetching starts")                 
+        case FETCH_USER_START:                           
             return {
                 ...state, success:null, error:"", isProcessing : true,
-            };break;            
-            
+            };
 
         case FETCH_USER_END:            
             return {
@@ -29,7 +27,15 @@ const user = (state = initialState, {type, payload=null}) => {
         case FETCH_USER_FAILED:
             return {
                 ...state, success : false, error: payload, user: null
-            };                
+            };  
+        
+        case UPDATE_USER_REPOSITORIES:
+            let newUser = state.user;
+            newUser.repositories = payload
+            return {
+                ...state, user: newUser
+            };  
+            
         default:            
             return state;
     }

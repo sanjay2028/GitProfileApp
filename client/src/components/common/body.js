@@ -9,17 +9,20 @@ const RepoRow = ({item, onShowModal}) => {
 
 
 const AppBody = (props) => {        
-    const {repositories, onShowModal} = props;    
+    const {repositories, onShowModal, inTransit} = props;    
     let output;
     
-    if(typeof repositories == 'undefined' || repositories.length == 0 ){
-      output = <tr><td colSpan="5">We have pulled the data. Only showing User information for now. Data being imported from the server in DB. You may try to search this after few minutes. Thanks for your patience.</td></tr>
-    } else {
-      output = repositories.map((item, index) => {
-          return <RepoRow item={item} onShowModal={onShowModal} key={`rep#${index}`} />
-      })
-    }
-    
+    if(inTransit === true){
+      output = <tr><td colSpan="5">{repositories}</td></tr>
+    } else {      
+      if(repositories.length){
+        output = repositories.map((item, index) => {
+            return <RepoRow item={item} onShowModal={onShowModal} key={`rep#${index}`} />
+        })
+      } else {
+        output = <tr><td colSpan="5">No repositories found for this user</td></tr>
+      }      
+    }    
 
     return(
         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
