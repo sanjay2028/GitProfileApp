@@ -10,7 +10,7 @@ const createResponse = (data) => ({
 const createError = (status_code, data) => ({
     success : false,
     status_code,
-    data: JSON.stringify(data),
+    data,
 })
 
 module.exports = { createError, createResponse }

@@ -48,7 +48,7 @@ const fetchUser = (payload) => {
         .then(({ data }) => {                                    
             dispatch(setFlashSuccess("Success !!!"));
             dispatch(fetchUserSuccess(data));                           
-        }).catch(({flash, error}) => {               
+        }).catch(({error, flash}) => {                      
             dispatch(setFlashError(flash));
             dispatch(fetchUserFailed(error))           
         }).finally(() => {            

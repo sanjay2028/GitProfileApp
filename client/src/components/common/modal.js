@@ -23,8 +23,6 @@ class AppModal extends Component {
 
         let output = ""
 
-        console.log("Commits are ", commits);
-
         if(commits.commits.constructor.name == 'Array'){            
             output = commits.commits.map(item => {
                 return <li key={item._id}>{item.message} on {item.date}</li>

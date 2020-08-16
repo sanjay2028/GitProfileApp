@@ -24,9 +24,11 @@ const userService = {
                    if(typeof error.response == 'undefined'){                       
                         return Promise.reject(networkError); 
                    } else {
+                       let response = error.response.data;
                         return Promise.reject({
-                                status_code : error.response.status,
-                                data : error.response.data                     
+                                status_code : response.status,
+                                error : response,
+                                flash: response.data
                         });                        
                    }       
                }); 

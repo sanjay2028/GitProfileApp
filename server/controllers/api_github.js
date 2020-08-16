@@ -59,8 +59,9 @@ const ListRepositories = async (req, res) => {
                  * Insert the commits for each repo
                  */
                 try{
-                    await insertRepoCommits(response);   
-                    sendSocketReply(response)                    
+                    await insertRepoCommits(response); 
+                    console.log(current_user.repositories);
+                    sendSocketReply(current_user.repositories)                    
                 } catch(error) {
                     console.log("Error occurred while fetcing repos");
                 }                
@@ -73,11 +74,29 @@ const ListRepositories = async (req, res) => {
             responseUser = current_user.toJSON()
             responseUser["inTransit"] = false            
         }                
+        
 
         res.status(STATUS_OK).send(createResponse(responseUser))
 
-    } catch(error){              
-        res.status(STATUS_NOT_FOUND).send(error)
+    } catch(error){                       
+
+        let errorResponse = {};
+        let statusCode;
+        if(typeof error.statusCode == 'undefined'){
+            statusCode = STATUS_INTERNAL_ERROR
+            errorResponse = error.toString();
+        }else if(error.statusCode == 403){
+            statusCode = 403
+            errorResponse = error.message;
+        } else if(error.statusCode == 400) {
+            statusCode = 400
+            errorResponse = "User not found";
+        } else {
+            statusCode = STATUS_INTERNAL_ERROR
+            errorResponse = error.toString();
+        }
+        
+        res.status(statusCode).send(createError(statusCode, errorResponse))
     }  
 }
 
@@ -192,7 +211,10 @@ const fetchByUserName = async (login) => {
             let user = await User.findOne({login}).populate("repositories");            
             return resolve(user);
         } catch(error){
-            return reject(ERROR_FETCHING_USER);
+            return reject({
+                statusCode: 404,
+                message : ERROR_FETCHING_USER
+            });
         }   
     })
 
